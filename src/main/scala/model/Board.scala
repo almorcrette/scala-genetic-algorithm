@@ -5,7 +5,7 @@ import model.Tile.FoodTile
 import java.lang.Math.round
 import scala.util.Random.shuffle
 
-case class EmptyBoard(tiles: IndexedSeq[Tile.EmptyTile]) {
+case class Board(tiles: IndexedSeq[Tile.EmptyTile]) {
   private def size: Int = tiles.length
 
   def selectRandomFoodTiles(proportion: Float): Food =
@@ -20,9 +20,9 @@ case class EmptyBoard(tiles: IndexedSeq[Tile.EmptyTile]) {
     }
 }
 
-object EmptyBoard {
-  def apply(xSize: Int, ySize: Int): EmptyBoard =
-    new EmptyBoard(tiles = for {
+object Board {
+  def apply(xSize: Int, ySize: Int): Board =
+    new Board(tiles = for {
       x <- 1 to xSize
       y <- 1 to ySize
     } yield Tile.EmptyTile(x, y))
