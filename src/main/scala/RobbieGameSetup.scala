@@ -20,7 +20,7 @@ object Tile {
   }
 }
 
-case class RobbieGame(boardWidth: Int, boardHeigh: Int, food: IndexedSeq[Tile.FoodTile])
+case class RobbieGame(boardWidth: Int, boardHeight: Int, food: IndexedSeq[Tile.FoodTile])
 
 
 object RobbieGameSetup {
