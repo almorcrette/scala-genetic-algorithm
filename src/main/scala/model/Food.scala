@@ -1,6 +1,8 @@
 package model
 
-class Food(positions: IndexedSeq[Tile.FoodTile]) {
+import BoardPosition._
+
+class Food(positions: IndexedSeq[Tile]) {
   override def toString: String = s"Food(positions: $positions"
 }
 

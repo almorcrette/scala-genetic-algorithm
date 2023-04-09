@@ -1,11 +1,11 @@
 package model
 
-import model.Tile.FoodTile
+import model.BoardPosition._
 
 import java.lang.Math.round
 import scala.util.Random.shuffle
 
-case class Board(tiles: IndexedSeq[Tile.EmptyTile]) {
+case class Board(tiles: IndexedSeq[Tile]) {
   private def size: Int = tiles.length
 
   def selectRandomFoodTiles(proportion: Float): Food =
@@ -13,17 +13,17 @@ case class Board(tiles: IndexedSeq[Tile.EmptyTile]) {
       throw new IllegalArgumentException("proportion of food tiles must be between 0 and 1")
     } else {
       new Food(
-        shuffle(tiles)
-          .take(round(this.size * proportion))
-          .map(FoodTile(_))
+        positions =
+          shuffle(tiles)
+            .take(round(this.size * proportion))
       )
     }
 }
 
 object Board {
-  def apply(xSize: Int, ySize: Int): Board =
+  def apply(boardDimensions: BoardDimensions): Board =
     new Board(tiles = for {
-      x <- 1 to xSize
-      y <- 1 to ySize
-    } yield Tile.EmptyTile(x, y))
+      x <- 1 to boardDimensions.width
+      y <- 1 to boardDimensions.height
+    } yield BoardPosition.Tile(x, y))
 }

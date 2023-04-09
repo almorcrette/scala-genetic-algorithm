@@ -1,12 +1,13 @@
 import model._
 
 object Run extends App {
+  import BoardPosition._
   import Direction._
-  val newGame = new RobbieGameState.Start(10, 10, 0.2f)
+  val newGame = new RobbieGameState.Start(BoardDimensions(10, 10), 0.2f)
 
-  given RobbieGameState = newGame
+  given BoardDimensions = newGame.boardDimensions
 
-  val startingPosition = Tile.RobbiePosition(1, 1)
+  val startingPosition = RobbiePosition(1, 1)
 
   println(s"starting position: $startingPosition")
 
@@ -24,7 +25,7 @@ object Run extends App {
        |left: ${startingPosition.move(Down).move(Right).move(Up).move(Left)}
        |""".stripMargin)
 
-  val startingPositionBottomRight = Tile.RobbiePosition(10, 10)
+  val startingPositionBottomRight = RobbiePosition(10, 10)
 
   println(s"new starting position: $startingPositionBottomRight")
   println(s"attempt move down from new starting position: ${startingPositionBottomRight.move(Down)}")
