@@ -8,6 +8,8 @@ class Food(positions: IndexedSeq[Tile]) {
     else this
 
   def amountRemaining: Int = positions.length
+  
+  def on(robbiePosition: RobbiePosition): Boolean = positions.contains(Tile(robbiePosition))
 
   override def toString: String = s"Food(positions: $positions"
 }

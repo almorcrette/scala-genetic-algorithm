@@ -12,7 +12,7 @@ trait RobbieGameState {
   val boardDimensions: BoardDimensions
   val food: Food
   val robbiePosition: RobbiePosition
-  val points: Int
+  val points: Points
 
   def playTurn(action: Action)(implicit boardDimensions: BoardDimensions): RobbieGameState.EndOfTurn =
     action match {
@@ -28,10 +28,13 @@ trait RobbieGameState {
     s"model.RobbieGame(robbiePosition: $robbiePosition, points: $points, foodRemaining: ${food.amountRemaining})"
 
   private def playMoveAction(direction: Direction)(implicit boardDimensions: BoardDimensions): EndOfTurn =
-    EndOfTurn(food, robbiePosition move direction, points, boardDimensions)
+    val newPosition = robbiePosition move direction
+    val newPoints = if newPosition != robbiePosition then points.scoreMoveSuccess else points.scoreMoveFail
+    EndOfTurn(food, robbiePosition move direction, newPoints, boardDimensions)
 
-  private def playGatherFoodAction: EndOfTurn =
-    EndOfTurn(food collectFrom Tile(robbiePosition), robbiePosition, points, boardDimensions)
+  private def playGatherFoodAction(implicit boardDimensions: BoardDimensions): EndOfTurn =
+    val newPoints = if food.on(robbiePosition) then points.scoreGatherFoodSuccess else points.scoreGatherFoodFail
+    EndOfTurn(food collectFrom Tile(robbiePosition), robbiePosition, newPoints, boardDimensions)
 
   private def playDoNothingAction: EndOfTurn =
     EndOfTurn(this)
@@ -50,13 +53,13 @@ object RobbieGameState {
     val robbiePosition: RobbiePosition =
       RobbiePosition.randomStart(boardDimensions)
 
-    val points: Int = 0
+    val points: Points = Points(0)
   }
 
   case class EndOfTurn(
                         food: Food,
                         robbiePosition: RobbiePosition,
-                        points: Int,
+                        points: Points,
                         boardDimensions: BoardDimensions
                       ) extends RobbieGameState
 
