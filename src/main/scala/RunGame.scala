@@ -1,16 +1,18 @@
 import model.{Action, BoardDimensions, RobbieGameState}
 
 object RunGame {
+
   def main(args: Array[String]): Unit = {
     if (args.length != 4) then {
       throw new IllegalArgumentException(
         """requires four arguments:
-          |1. board lenght,
+          |1. board length,
           |2. board width,
           |3. food proportion,
           |4. number of turns""".stripMargin
       )
     } else {
+
       val boardLength: Int = args(0).toInt
       val boardHeight: Int = args(1).toInt
       val foodProportion: Float = args(2).toFloat
