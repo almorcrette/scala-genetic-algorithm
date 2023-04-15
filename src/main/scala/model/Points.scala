@@ -9,7 +9,7 @@ case class Points(value: Int) {
     Points(this.value - 2)
 
   def scoreMoveSuccess: Points =
-    Points(this.value + 1)
+    Points(this.value)
 
   def scoreMoveFail: Points =
     Points(this.value - 5)

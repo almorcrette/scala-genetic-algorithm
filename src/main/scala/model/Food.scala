@@ -1,6 +1,6 @@
 package model
 
-import BoardPosition._
+import model.BoardPosition.{RobbiePosition, Tile}
 
 class Food(positions: IndexedSeq[Tile]) {
   infix def collectFrom(position: Tile): Food =

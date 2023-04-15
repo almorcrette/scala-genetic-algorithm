@@ -1,6 +1,7 @@
 package model
 
-import model.BoardPosition._
+import model.BoardPosition.Tile
+import model.Food
 
 import java.lang.Math.round
 import scala.util.Random.shuffle

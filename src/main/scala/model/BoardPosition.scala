@@ -1,8 +1,9 @@
 package model
 
+import model.Direction._
+
 import scala.util.Random
 import scala.util.Random.shuffle
-import Direction._
 
 
 trait BoardPosition {

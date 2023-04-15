@@ -1,12 +1,12 @@
 package model
 
 import model.BoardPosition.{RobbiePosition, Tile}
-import model.RobbieGameState.EndOfTurn
+import model.Food
 import model.Action.*
-import Direction.*
+import model.RobbieGameState.EndOfTurn
+import model.Direction.*
 
 import scala.language.postfixOps
-
 
 trait RobbieGameState {
   val boardDimensions: BoardDimensions
