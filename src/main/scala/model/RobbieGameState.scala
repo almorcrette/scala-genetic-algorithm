@@ -5,6 +5,7 @@ import model.Food
 import model.Action.*
 import model.RobbieGameState.EndOfTurn
 import model.Direction.*
+import model.Feature.here
 
 trait RobbieGameState {
   val boardDimensions: BoardDimensions
@@ -12,16 +13,18 @@ trait RobbieGameState {
   val robbiePosition: RobbiePosition
   val points: Points
 
-  lazy val robbieSurroundings: Surroundings =
+  private lazy val robbieSurroundings: Surroundings =
+    given BoardDimensions = boardDimensions; given Food = food
     Surroundings(
-      here = surroundingsHere(Tile(robbiePosition)),
-      north = surroundingsHere(Tile(robbiePosition.xCoordinate, robbiePosition.yCoordinate - 1)),
-      east = surroundingsHere(Tile(robbiePosition.xCoordinate + 1, robbiePosition.yCoordinate)),
-      south = surroundingsHere(Tile(robbiePosition.xCoordinate, robbiePosition.yCoordinate + 1)),
-      west = surroundingsHere(Tile(robbiePosition.xCoordinate - 1, robbiePosition.yCoordinate))
+      here = here(robbiePosition),
+      north = here(robbiePosition.toTheNorth),
+      east = here(robbiePosition.toTheEast),
+      south = here(robbiePosition.toTheSouth),
+      west = here(robbiePosition.toTheWest)
     )
 
-  def playTurn(action: Action)(implicit boardDimensions: BoardDimensions): RobbieGameState.EndOfTurn =
+  def playTurn(action: Action): RobbieGameState.EndOfTurn =
+    given BoardDimensions = boardDimensions
     action match {
       case MoveNorth => playMoveAction(North)
       case MoveSouth => playMoveAction(South)
@@ -33,15 +36,15 @@ trait RobbieGameState {
     }
 
   override def toString: String =
-    s"""RobbieGameState(robbiePosition: $robbiePosition, surroundings: $robbieSurroundings, points: $points, foodRemaining: ${food.amountRemaining})"""
+    s"""RobbieGameState
+       | - robbiePosition: $robbiePosition,
+       | - surroundings: $robbieSurroundings,
+       | - points: $points,
+       | - foodRemaining: ${food.amountRemaining}
+       """.stripMargin
 
-  private def surroundingsHere(tile: Tile): Feature =
-    if food.on(tile) then Feature.Food
-    else if tile.xCoordinate < 1 || tile.xCoordinate > boardDimensions.width || tile.yCoordinate < 1 || tile.yCoordinate > boardDimensions.height
-      then Feature.Boundary
-    else Feature.Nothing
-
-  private def playMoveAction(direction: Direction)(implicit boardDimensions: BoardDimensions): EndOfTurn =
+  infix private def playMoveAction(direction: Direction): EndOfTurn =
+    given BoardDimensions = boardDimensions
     val newPosition = robbiePosition move direction
     val newPoints = if newPosition != robbiePosition then points.scoreMoveSuccess else points.scoreMoveFail
     EndOfTurn(food, robbiePosition move direction, newPoints, boardDimensions)

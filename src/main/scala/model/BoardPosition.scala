@@ -12,16 +12,16 @@ trait BoardPosition {
 }
 
 object BoardPosition {
-  
+
   case class Tile(xCoordinate: Int, yCoordinate: Int) extends BoardPosition
-  
+
   object Tile {
     def apply(rp: RobbiePosition): Tile = Tile(rp.xCoordinate, rp.yCoordinate)
   }
 
   case class RobbiePosition(xCoordinate: Int, yCoordinate: Int) extends BoardPosition {
 
-    infix def move(direction: Direction)(implicit boardDimensions: BoardDimensions): RobbiePosition = {
+    def move(direction: Direction)(implicit boardDimensions: BoardDimensions): RobbiePosition = {
 
       direction match
         case North => if yCoordinate == 1 then this else
@@ -37,6 +37,19 @@ object BoardPosition {
         case West => if xCoordinate == 1 then this else
           RobbiePosition(xCoordinate - 1, yCoordinate)
     }
+    
+    def toTheNorth: Tile =
+      Tile(xCoordinate, yCoordinate - 1)
+      
+    def toTheSouth: Tile =
+      Tile(xCoordinate, yCoordinate + 1)
+
+    def toTheEast: Tile =
+      Tile(xCoordinate + 1, yCoordinate)
+
+    def toTheWest: Tile =
+      Tile(xCoordinate - 1, yCoordinate)
+      
   }
 
   object RobbiePosition {

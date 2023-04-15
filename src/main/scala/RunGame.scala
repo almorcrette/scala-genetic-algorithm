@@ -22,7 +22,7 @@ object RunGame {
 
       val endState = (0 to numberTurns).foldLeft(newGame: RobbieGameState)((gameState: RobbieGameState, gameTurn: Int) => {
         println(s"turn $gameTurn: $gameState")
-        gameState.playTurn(Action.RandomMove)(gameState.boardDimensions)
+        gameState.playTurn(Action.RandomMove)
       })
 
       println(s"end game: $endState")

@@ -15,6 +15,9 @@ object Action {
 
   def randomiseAction: Action =
     val action = shuffle(allNonRandomMoves).head
-    println(s"action: $action")
+    println(
+      s"""action: $action
+       """.stripMargin
+    )
     action
 }
