@@ -1,35 +1,38 @@
-import model._
+import model.*
+import model.Action._
+import model.BoardPosition.RobbiePosition
+import model.Direction.*
 
 object Run extends App {
-  import BoardPosition._
-  import Direction._
   val newGame = new RobbieGameState.Start(BoardDimensions(10, 10), 0.2f)
 
-  given BoardDimensions = newGame.boardDimensions
+  println(newGame)
 
-  val startingPosition = RobbiePosition(1, 1)
+  val endOfTurn1 = newGame
+    .playTurn(MoveNorth)(newGame.boardDimensions)
+  println(endOfTurn1)
 
-  println(s"starting position: $startingPosition")
+  val endOfTurn2 = endOfTurn1
+    .playTurn(MoveSouth)(endOfTurn1.boardDimensions)
+  println(endOfTurn2)
 
-  println(s"move down from starting position: ${startingPosition.move(Down)}")
-  println(s"move right from starting position: ${startingPosition.move(Right)}")
-  println(s"attempt move up from starting position: ${startingPosition.move(Up)}")
-  println(s"attempt move left from starting position: ${startingPosition.move(Left)}")
+  val endOfTurn3 = endOfTurn2
+    .playTurn(GatherFood)(endOfTurn2.boardDimensions)
+  println(endOfTurn3)
 
-  println(
-    s"""move down, right, up, then left:
-       |starting position: $startingPosition
-       |down: ${startingPosition.move(Down)}
-       |right: ${startingPosition.move(Down).move(Right)}
-       |up: ${startingPosition.move(Down).move(Right).move(Up)}
-       |left: ${startingPosition.move(Down).move(Right).move(Up).move(Left)}
-       |""".stripMargin)
 
-  val startingPositionBottomRight = RobbiePosition(10, 10)
+  val endOfTurn4 = endOfTurn3
+    .playTurn(MoveEast)(endOfTurn3.boardDimensions)
+  println(endOfTurn4)
 
-  println(s"new starting position: $startingPositionBottomRight")
-  println(s"attempt move down from new starting position: ${startingPositionBottomRight.move(Down)}")
-  println(s"attempt move right from new starting position: ${startingPositionBottomRight.move(Right)}")
+  val endOfTurn5 = endOfTurn4
+    .playTurn(MoveWest)(endOfTurn4.boardDimensions)
+  println(endOfTurn5)
+
+  val endOfTurn6 = endOfTurn5
+    .playTurn(DoNothing)(endOfTurn5.boardDimensions)
+  println(endOfTurn6)
+
 
 
 

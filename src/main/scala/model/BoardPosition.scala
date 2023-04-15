@@ -2,6 +2,8 @@ package model
 
 import scala.util.Random
 import scala.util.Random.shuffle
+import Direction._
+
 
 trait BoardPosition {
   val xCoordinate: Int
@@ -11,24 +13,28 @@ trait BoardPosition {
 object BoardPosition {
   
   case class Tile(xCoordinate: Int, yCoordinate: Int) extends BoardPosition
+  
+  object Tile {
+    def apply(rp: RobbiePosition): Tile = Tile(rp.xCoordinate, rp.yCoordinate)
+  }
 
   case class RobbiePosition(xCoordinate: Int, yCoordinate: Int) extends BoardPosition {
 
-    def move(direction: Direction)(implicit boardDimensions: BoardDimensions): RobbiePosition = {
-      import Direction._
+    infix def move(direction: Direction)(implicit boardDimensions: BoardDimensions): RobbiePosition = {
 
       direction match
-        case Up => if yCoordinate == 1 then this else
+        case North => if yCoordinate == 1 then this else
           RobbiePosition(xCoordinate, yCoordinate -1)
 
-        case Down => if yCoordinate == boardDimensions.height then this else
+        case South => if yCoordinate == boardDimensions.height then this else
           RobbiePosition(xCoordinate, yCoordinate + 1)
 
-        case Left => if xCoordinate == 1 then this else
-          RobbiePosition(xCoordinate - 1, yCoordinate)
+        case East =>
+          if xCoordinate == boardDimensions.height then this else
+            RobbiePosition(xCoordinate + 1, yCoordinate)
 
-        case Right => if xCoordinate == boardDimensions.height then this else
-          RobbiePosition(xCoordinate + 1, yCoordinate)
+        case West => if xCoordinate == 1 then this else
+          RobbiePosition(xCoordinate - 1, yCoordinate)
     }
   }
 
@@ -36,12 +42,6 @@ object BoardPosition {
     def randomStart(boardDimensions: BoardDimensions): RobbiePosition = {
       val randomTile = shuffle(Board(boardDimensions).tiles).head
       RobbiePosition(randomTile.xCoordinate, randomTile.yCoordinate)
-
     }
-
   }
-}
-
-enum Direction {
-  case Up, Down, Left, Right
 }
