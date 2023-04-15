@@ -22,6 +22,7 @@ trait RobbieGameState {
       case MoveWest => playMoveAction(West)
       case GatherFood => playGatherFoodAction
       case DoNothing => playDoNothingAction
+      case RandomMove => playTurn(randomiseAction)
     }
 
   override def toString: String =

@@ -1,5 +1,19 @@
 package model
 
-enum Action {
-  case MoveNorth, MoveSouth, MoveEast, MoveWest, GatherFood, DoNothing
+import scala.util.Random.shuffle
+
+
+enum Action extends Enum[Action] {
+  case MoveNorth, MoveSouth, MoveEast, MoveWest, GatherFood, DoNothing, RandomMove
+}
+
+object Action {
+  lazy val allNonRandomMoves: IndexedSeq[Action] =
+    classOf[Action]
+      .getEnumConstants
+      .toIndexedSeq
+      .filterNot(_ == RandomMove)
+
+  def randomiseAction: Action =
+    shuffle(allNonRandomMoves).head
 }

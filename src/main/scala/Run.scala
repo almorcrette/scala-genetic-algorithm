@@ -5,16 +5,16 @@ import model.Direction.*
 
 /**
  * TODO: fix implicit board dimensions
- * TODO: implement points
  * TODO: implement random move
  * TODO: run full game e.g. 20 turns
  * TODO: create surroundings
  * TODO: CLI for manual game
+ * Work out infix
  */
 
 
 object Run extends App {
-  val newGame = new RobbieGameState.Start(BoardDimensions(10, 10), 0.2f)
+  val newGame = new RobbieGameState.Start(BoardDimensions(10, 10), 0.5f)
 
   println(newGame)
 
@@ -42,6 +42,11 @@ object Run extends App {
   val endOfTurn6 = endOfTurn5
     .playTurn(DoNothing)(endOfTurn5.boardDimensions)
   println(endOfTurn6)
+
+  val endOfTurn7 = endOfTurn6
+    .playTurn(RandomMove)(endOfTurn6.boardDimensions)
+  println(endOfTurn7)
+
 
 
 
