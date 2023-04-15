@@ -9,7 +9,7 @@ class Food(positions: IndexedSeq[Tile]) {
 
   def amountRemaining: Int = positions.length
   
-  def on(robbiePosition: RobbiePosition): Boolean = positions.contains(Tile(robbiePosition))
+  def on(tile: Tile): Boolean = positions.contains(tile)
 
   override def toString: String = s"Food(positions: $positions"
 }

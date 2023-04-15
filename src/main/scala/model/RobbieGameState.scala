@@ -6,13 +6,20 @@ import model.Action.*
 import model.RobbieGameState.EndOfTurn
 import model.Direction.*
 
-import scala.language.postfixOps
-
 trait RobbieGameState {
   val boardDimensions: BoardDimensions
   val food: Food
   val robbiePosition: RobbiePosition
   val points: Points
+
+  lazy val robbieSurroundings: Surroundings =
+    Surroundings(
+      here = surroundingsHere(Tile(robbiePosition)),
+      north = surroundingsHere(Tile(robbiePosition.xCoordinate, robbiePosition.yCoordinate - 1)),
+      east = surroundingsHere(Tile(robbiePosition.xCoordinate + 1, robbiePosition.yCoordinate)),
+      south = surroundingsHere(Tile(robbiePosition.xCoordinate, robbiePosition.yCoordinate + 1)),
+      west = surroundingsHere(Tile(robbiePosition.xCoordinate - 1, robbiePosition.yCoordinate))
+    )
 
   def playTurn(action: Action)(implicit boardDimensions: BoardDimensions): RobbieGameState.EndOfTurn =
     action match {
@@ -26,7 +33,13 @@ trait RobbieGameState {
     }
 
   override def toString: String =
-    s"model.RobbieGame(robbiePosition: $robbiePosition, points: $points, foodRemaining: ${food.amountRemaining})"
+    s"""RobbieGameState(robbiePosition: $robbiePosition, surroundings: $robbieSurroundings, points: $points, foodRemaining: ${food.amountRemaining})"""
+
+  private def surroundingsHere(tile: Tile): Feature =
+    if food.on(tile) then Feature.Food
+    else if tile.xCoordinate < 1 || tile.xCoordinate > boardDimensions.width || tile.yCoordinate < 1 || tile.yCoordinate > boardDimensions.height
+      then Feature.Boundary
+    else Feature.Nothing
 
   private def playMoveAction(direction: Direction)(implicit boardDimensions: BoardDimensions): EndOfTurn =
     val newPosition = robbiePosition move direction
@@ -34,7 +47,7 @@ trait RobbieGameState {
     EndOfTurn(food, robbiePosition move direction, newPoints, boardDimensions)
 
   private def playGatherFoodAction(implicit boardDimensions: BoardDimensions): EndOfTurn =
-    val newPoints = if food.on(robbiePosition) then points.scoreGatherFoodSuccess else points.scoreGatherFoodFail
+    val newPoints = if food.on(Tile(robbiePosition)) then points.scoreGatherFoodSuccess else points.scoreGatherFoodFail
     EndOfTurn(food collectFrom Tile(robbiePosition), robbiePosition, newPoints, boardDimensions)
 
   private def playDoNothingAction: EndOfTurn =
