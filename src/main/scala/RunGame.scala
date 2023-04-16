@@ -1,4 +1,6 @@
 import model.{Action, BoardDimensions, RobbieGameState}
+import CommandLineInterface.*
+import model.Action.RandomAction
 
 object RunGame {
 
@@ -20,12 +22,15 @@ object RunGame {
 
       val newGame = new RobbieGameState.Start(BoardDimensions(boardLength, boardHeight), foodProportion)
 
-      val endState = (0 to numberTurns).foldLeft(newGame: RobbieGameState)((gameState: RobbieGameState, gameTurn: Int) => {
-        println(s"turn $gameTurn: $gameState")
-        gameState.playTurn(Action.RandomMove)
-      })
+      val endState =
+        (0 to numberTurns).foldLeft(newGame: RobbieGameState)((gameState: RobbieGameState, gameTurn: Int) => {
+          Output.gameStateAtTurn(gameTurn, gameState)
+          val action = Input.whatAction()
+          Output.action(action)
+          gameState.playTurn(action)
+        })
 
-      println(s"end game: $endState")
+      Output.endGameState(endState)
 
     }
 

@@ -16,7 +16,7 @@ trait RobbieGameState {
   private lazy val robbieSurroundings: Surroundings =
     given BoardDimensions = boardDimensions; given Food = food
     Surroundings(
-      here = here(robbiePosition),
+      here = here(Tile(robbiePosition)),
       north = here(robbiePosition.toTheNorth),
       east = here(robbiePosition.toTheEast),
       south = here(robbiePosition.toTheSouth),
@@ -32,14 +32,15 @@ trait RobbieGameState {
       case MoveWest => playMoveAction(West)
       case GatherFood => playGatherFoodAction
       case DoNothing => playDoNothingAction
-      case RandomMove => playTurn(randomiseAction)
+      case RandomAction => playTurn(randomiseAction)
     }
 
   override def toString: String =
-    s"""RobbieGameState
-       | - robbiePosition: $robbiePosition,
-       | - surroundings: $robbieSurroundings,
-       | - points: $points,
+    s"""
+       |RobbieGameState
+       | - robbiePosition: $robbiePosition
+       | - surroundings: $robbieSurroundings
+       | - points: $points
        | - foodRemaining: ${food.amountRemaining}
        """.stripMargin
 

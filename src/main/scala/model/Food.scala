@@ -3,7 +3,8 @@ package model
 import model.BoardPosition.{RobbiePosition, Tile}
 
 class Food(positions: IndexedSeq[Tile]) {
-  infix def collectFrom(position: Tile): Food =
+  
+  def collectFrom(position: Tile): Food =
     if positions.contains(position) then
       new Food(positions.filterNot(_ == position))
     else this
