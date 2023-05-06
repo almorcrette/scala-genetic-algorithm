@@ -1,8 +1,12 @@
-package model
+package model.trial
+
+import model.trial.{BoardDimensions, BoardPosition}
+import model.Encodable
+import model.trial.Feature
 
 enum Feature extends Encodable {
   case Food, Boundary, Nothing
-  
+
   def encoding: String = this match
     case Food => "F"
     case Boundary => "B"

@@ -1,5 +1,5 @@
-import model.Action.{DoNothing, GatherFood, MoveEast, MoveNorth, MoveSouth, MoveWest, RandomAction}
-import model.{Action, RobbieGameState}
+import model.trial.Action.{DoNothing, GatherFood, MoveEast, MoveNorth, MoveSouth, MoveWest, RandomAction}
+import model.trial.{Action, RobbieGameState}
 
 import scala.io.StdIn.readLine
 

@@ -1,4 +1,8 @@
-package model
+package model.trial
+
+import model.trial.{Feature, ImmediateNoDiagonalBoardContext}
+import model.Encodable
+
 
 case class Surroundings(
                   here: Feature,

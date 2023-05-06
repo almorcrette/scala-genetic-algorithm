@@ -1,11 +1,12 @@
-package model
+package model.trial
 
-import model.BoardPosition.{RobbiePosition, Tile}
-import model.Food
-import model.Action.*
-import model.RobbieGameState.EndOfTurn
-import model.Direction.*
-import model.Feature.here
+import Action.*
+import model.trial.BoardPosition.{RobbiePosition, Tile}
+import model.trial.Direction.*
+import model.trial.Feature.here
+import model.trial.RobbieGameState.EndOfTurn
+import model.trial.{Board, BoardDimensions, Direction, Food}
+import model.trial.{Action, Points, RobbieGameState, Surroundings}
 
 trait RobbieGameState {
   val boardDimensions: BoardDimensions

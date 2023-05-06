@@ -1,4 +1,4 @@
-package model
+package model.trial
 
 case class Points(value: Int) {
 

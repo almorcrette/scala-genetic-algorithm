@@ -1,4 +1,8 @@
-package model
+package model.trial
+
+import model.agents.Allele
+import model.trial.Action
+import model.Encodable
 
 import scala.util.Random.shuffle
 

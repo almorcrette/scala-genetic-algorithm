@@ -1,4 +1,6 @@
-package model
+package model.agents
+
+import model.trial.{Action, Surroundings}
 
 import scala.util.Random
 

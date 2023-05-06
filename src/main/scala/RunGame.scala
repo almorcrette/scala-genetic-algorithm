@@ -1,6 +1,6 @@
-import model.{Action, BoardDimensions, RobbieGameState}
 import CommandLineInterface.*
-import model.Action.RandomAction
+import model.trial.Action.RandomAction
+import model.trial.{Action, BoardDimensions, RobbieGameState}
 
 object RunGame {
 

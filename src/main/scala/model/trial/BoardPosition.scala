@@ -1,6 +1,8 @@
-package model
+package model.trial
 
-import model.Direction._
+import Direction.*
+import model.trial.{Board, BoardDimensions}
+import model.trial.BoardPosition
 
 import scala.util.Random
 import scala.util.Random.shuffle
