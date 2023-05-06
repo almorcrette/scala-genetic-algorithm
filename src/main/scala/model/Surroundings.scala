@@ -6,11 +6,19 @@ case class Surroundings(
                   east: Feature,
                   south: Feature,
                   west: Feature
-                  ) {
-  override def toString: String =
+                  ) extends Encodable {
+  
+  override def toString: String = {
     s"""Surroundings:
        |                 north: $north
-       |west: $west      here: $here      east: $here
+       |west: $west      here: $here      east: $east
        |                 south: $south
     """.stripMargin
+  }
+  
+  val encoding: String = {
+    s"${here.encoding}${north.encoding}${east.encoding}${south.encoding}${west.encoding}"
+  }
+
 }
+
