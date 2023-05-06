@@ -2,7 +2,7 @@ package model
 
 import scala.util.Random.shuffle
 
-enum Action (val asString: String)  extends Enum[Action] {
+enum Action (val asString: String) extends Allele with Encodable {
   case MoveNorth extends Action("move north")
   case MoveSouth extends Action("move south")
   case MoveEast extends Action("move east")
@@ -11,6 +11,14 @@ enum Action (val asString: String)  extends Enum[Action] {
   case DoNothing extends Action("do nothing")
   case RandomAction extends Action("random action")
 
+  override def encoding: String = this match
+    case MoveNorth => "N"
+    case MoveSouth => "S"
+    case MoveEast => "E"
+    case MoveWest => "W"
+    case GatherFood => "F"
+    case DoNothing => "X"
+    case RandomAction => "R"
 }
 
 object Action {

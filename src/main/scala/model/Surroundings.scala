@@ -6,8 +6,8 @@ case class Surroundings(
                   east: Feature,
                   south: Feature,
                   west: Feature
-                  ) extends Encodable {
-  
+                  ) extends ImmediateNoDiagonalBoardContext with Encodable {
+
   override def toString: String = {
     s"""Surroundings:
        |                 north: $north
@@ -15,10 +15,11 @@ case class Surroundings(
        |                 south: $south
     """.stripMargin
   }
-  
+
   val encoding: String = {
     s"${here.encoding}${north.encoding}${east.encoding}${south.encoding}${west.encoding}"
   }
-
 }
+
+object Surroundings extends ImmediateNoDiagonalBoardContext
 
