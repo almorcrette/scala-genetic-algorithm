@@ -43,5 +43,8 @@ object CommandLineInterface {
     def endGameState(gameState: RobbieGameState): Unit =
       println(s"end game: $gameState")
 
+    def gameSummary(gameState: RobbieGameState): Unit =
+      println(s"END OF GAME - food remaining : ${gameState.food.amountRemaining}. points : ${gameState.points.value}")
+
   }
 }

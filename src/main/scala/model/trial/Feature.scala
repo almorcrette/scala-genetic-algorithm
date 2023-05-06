@@ -1,7 +1,7 @@
 package model.trial
 
 import model.trial.{BoardDimensions, BoardPosition}
-import model.Encodable
+import model.{Encodable, EnumerableCode}
 import model.trial.Feature
 
 enum Feature extends Encodable {
@@ -13,7 +13,7 @@ enum Feature extends Encodable {
     case Nothing => "N"
 }
 
-object Feature {
+object Feature extends EnumerableCode {
   def here(boardPosition: BoardPosition)(using boardDimensions: BoardDimensions, food: Food): Feature =
     if food.on(boardPosition) then Feature.Food
     else if outOfBounds(boardPosition) then Feature.Boundary
@@ -24,5 +24,6 @@ object Feature {
       boardPosition.yCoordinate < 1 ||
       boardPosition.xCoordinate > boardDimensions.width ||
       boardPosition.yCoordinate > boardDimensions.height
-    
+
+  lazy val allCodes: Seq[String] = Feature.values.map(_.encoding)
 }

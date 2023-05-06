@@ -35,43 +35,4 @@ object RunGame {
     }
 
   }
-
-//  val newGame = new RobbieGameState.Start(BoardDimensions(10, 10), 0.5f)
-//
-//  println(newGame)
-//
-//  val endOfTurn1 = newGame
-//    .playTurn(MoveNorth)(newGame.boardDimensions)
-//  println(endOfTurn1)
-//
-//  val endOfTurn2 = endOfTurn1
-//    .playTurn(MoveSouth)(endOfTurn1.boardDimensions)
-//  println(endOfTurn2)
-//
-//  val endOfTurn3 = endOfTurn2
-//    .playTurn(GatherFood)(endOfTurn2.boardDimensions)
-//  println(endOfTurn3)
-//
-//
-//  val endOfTurn4 = endOfTurn3
-//    .playTurn(MoveEast)(endOfTurn3.boardDimensions)
-//  println(endOfTurn4)
-//
-//  val endOfTurn5 = endOfTurn4
-//    .playTurn(MoveWest)(endOfTurn4.boardDimensions)
-//  println(endOfTurn5)
-//
-//  val endOfTurn6 = endOfTurn5
-//    .playTurn(DoNothing)(endOfTurn5.boardDimensions)
-//  println(endOfTurn6)
-//
-//  val endOfTurn7 = endOfTurn6
-//    .playTurn(RandomMove)(endOfTurn6.boardDimensions)
-//  println(endOfTurn7)
-
-
-
-
-
-
 }

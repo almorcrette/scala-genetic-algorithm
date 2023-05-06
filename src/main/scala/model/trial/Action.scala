@@ -2,7 +2,7 @@ package model.trial
 
 import model.agents.Allele
 import model.trial.Action
-import model.Encodable
+import model.{Decodable, Encodable}
 
 import scala.util.Random.shuffle
 
@@ -25,18 +25,24 @@ enum Action (val asString: String) extends Allele with Encodable {
     case RandomAction => "R"
 }
 
-object Action {
+object Action extends Decodable[Action] {
   private lazy val allNonRandomActions: IndexedSeq[Action] =
-    classOf[Action]
-      .getEnumConstants
-      .toIndexedSeq
+    Action
+      .values
       .filterNot(_ == RandomAction)
 
   def randomiseAction: Action =
-    val action = shuffle(allNonRandomActions).head
-    println(
-      s"""action: $action
-       """.stripMargin
-    )
-    action
+    shuffle(allNonRandomActions).head
+
+  def decoded(string: String): Action = string match
+    case "N" => MoveNorth
+    case "S" => MoveSouth
+    case "E" => MoveEast
+    case "W" => MoveWest
+    case "F" => GatherFood
+    case "X" => DoNothing
+    case "R" => RandomAction
+    case _ => throw new Exception("Cannot decode action")
+
+
 }

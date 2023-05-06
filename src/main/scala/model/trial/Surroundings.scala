@@ -1,8 +1,9 @@
 package model.trial
 
 import model.trial.{Feature, ImmediateNoDiagonalBoardContext}
-import model.Encodable
+import model.{Encodable, EnumerableCode}
 
+trait Environment
 
 case class Surroundings(
                   here: Feature,
@@ -10,7 +11,7 @@ case class Surroundings(
                   east: Feature,
                   south: Feature,
                   west: Feature
-                  ) extends ImmediateNoDiagonalBoardContext with Encodable {
+                  ) extends Environment with ImmediateNoDiagonalBoardContext with Encodable {
 
   override def toString: String = {
     s"""Surroundings:
@@ -21,9 +22,21 @@ case class Surroundings(
   }
 
   val encoding: String = {
-    s"${here.encoding}${north.encoding}${east.encoding}${south.encoding}${west.encoding}"
+    here.encoding + north.encoding + east.encoding + south.encoding + west.encoding
   }
 }
 
-object Surroundings extends ImmediateNoDiagonalBoardContext
+object Surroundings extends ImmediateNoDiagonalBoardContext with EnumerableCode {
+  lazy val allCodes: Seq[String] = {
+    val featureCodes = Feature.allCodes
+    for {
+      here <- featureCodes
+      north <- featureCodes
+      east <- featureCodes
+      south <- featureCodes
+      west <- featureCodes
+    } yield here + north + east + south + west
+  }
+
+}
 

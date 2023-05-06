@@ -14,7 +14,7 @@ trait RobbieGameState {
   val robbiePosition: RobbiePosition
   val points: Points
 
-  private lazy val robbieSurroundings: Surroundings =
+  lazy val robbieSurroundings: Surroundings =
     given BoardDimensions = boardDimensions; given Food = food
     Surroundings(
       here = here(Tile(robbiePosition)),
