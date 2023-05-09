@@ -27,7 +27,7 @@ object OffspringService {
   }
   
   def crossover(firstParent: RobbieGenotype, secondParent: RobbieGenotype): (RobbieGenotype, RobbieGenotype) = {
-    val randomCrossoverLocation = Random.nextInt(firstParent.sequence.length)
+    val randomCrossoverLocation = Random.nextInt(firstParent.sequence.length + 1)
     val lengthRightSection = firstParent.sequence.length - randomCrossoverLocation
     val firstSectionFirstParentSequence = firstParent.sequence.take(randomCrossoverLocation)
     val secondSectionFirstParentSequence = firstParent.sequence.takeRight(lengthRightSection)
