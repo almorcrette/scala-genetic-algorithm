@@ -33,6 +33,8 @@ object Action extends Decodable[Action] {
 
   def randomiseAction: Action =
     shuffle(allNonRandomActions).head
+    
+  def encodedValues: Seq[Char] = "NSEWFXR".toList
 
   def decoded(string: String): Action = string match
     case "N" => MoveNorth

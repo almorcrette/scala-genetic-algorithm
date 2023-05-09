@@ -4,30 +4,29 @@ import scala.annotation.tailrec
 import scala.util.Random
 
 case class Agent(id: String, lifeScore: Int)
-case class Generation(individuals: Seq[Agent])
 
 object SelectionService {
 
-  def elite(generation: Generation, proportionOfGeneration: Float): Seq[Agent] =
-    generation.individuals
+  def elite[A <: Agent](generation: Seq[A], proportionOfGeneration: Float): Seq[A] =
+    generation
       .sortBy(_.lifeScore)(Ordering[Int].reverse)
-      .take((proportionOfGeneration * generation.individuals.length).toInt)
+      .take((proportionOfGeneration * generation.length).toInt)
 
-  def selectByRouletteWheel(generation: Generation, selectNumber: Int): Seq[Agent] =
+  def selectByRouletteWheel[A <: Agent](generation: Seq[A], selectNumber: Int): Seq[A] =
     @tailrec
-    def selectOne(generation: Generation, selector: Int): Agent =
-      val firstIndividual = generation.individuals.head
+    def selectOne(generation: Seq[A], selector: Int): A =
+      val firstIndividual = generation.head
       if firstIndividual.lifeScore > selector then firstIndividual
-      else selectOne(Generation(generation.individuals.tail), selector - generation.individuals.head.lifeScore)
+      else selectOne(generation.tail, selector - generation.head.lifeScore)
 
-    val totalExpectedValue = generation.individuals.map(_.lifeScore).sum
+    val totalExpectedValue = generation.map(_.lifeScore).sum
     (1 to selectNumber).map(_ => selectOne(generation, Random.nextInt(totalExpectedValue)))
 
 
   def main(args: Array[String]): Unit = {
     println(Random.nextInt(2))
 
-    val generation = Generation(Seq(
+    val generation = Seq(
       Agent("1", 64),
       Agent("2", 32),
       Agent("3", 16),
@@ -42,7 +41,7 @@ object SelectionService {
       Agent("5a", 4),
       Agent("6a", 2),
       Agent("7a", 1)
-    ))
+    )
 
     println(elite(generation, 0.2))
 

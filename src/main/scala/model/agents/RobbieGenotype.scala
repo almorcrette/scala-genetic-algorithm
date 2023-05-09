@@ -15,7 +15,7 @@ object RobbieGenotype {
   def create: RobbieGenotype = {
     val alleles: List[Action] = Action.values.toList
     def randomAllele: Action = Random.shuffle(alleles).head
-    val numGenes = Math.pow(alleles.length, Surroundings.size).toInt
+    val numGenes = Math.pow(Surroundings.size, alleles.length).toInt
     RobbieGenotype((1 to numGenes).foldLeft[String]("")((stem, _) => stem + randomAllele.encoding))
   }
 }
