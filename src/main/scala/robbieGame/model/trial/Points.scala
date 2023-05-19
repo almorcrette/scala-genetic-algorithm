@@ -1,4 +1,4 @@
-package model.trial
+package robbieGame.model.trial
 
 case class Points(value: Int) {
 

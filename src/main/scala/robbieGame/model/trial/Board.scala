@@ -1,7 +1,6 @@
-package model.trial
+package robbieGame.model.trial
 
-import BoardPosition.Tile
-import model.trial.Board
+import robbieGame.model.trial.BoardPosition.Tile
 
 import java.lang.Math.round
 import scala.util.Random.shuffle

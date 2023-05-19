@@ -1,6 +1,5 @@
-package model.trial
+package robbieGame.model.trial
 
-import model.trial.{Feature, ImmediateNoDiagonalBoardContext}
 import model.{Encodable, EnumerableCode}
 
 trait Environment

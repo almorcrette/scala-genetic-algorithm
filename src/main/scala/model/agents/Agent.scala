@@ -2,8 +2,10 @@ package model.agents
 
 import java.util.UUID
 
-trait Agent[G <: Gene, A<: Allele] {
+trait Agent[I <: Input, O <: Output] {
   val id: UniqueId = UniqueId()
 //  val appeared: Id[Generation]
-  val genes: Genotype[G, A]
+  val genes: Genotype[I, O]
+
+  given inputOutputMapping: InputOutputMapping
 }

@@ -1,8 +1,6 @@
-package model.trial
+package robbieGame.model.trial
 
-import Direction.*
-import model.trial.{Board, BoardDimensions}
-import model.trial.BoardPosition
+import robbieGame.model.trial.Direction.*
 
 import scala.util.Random
 import scala.util.Random.shuffle

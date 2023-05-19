@@ -1,25 +1,60 @@
 package generations
 
-import model.agents.{RobbieAgent, RobbieGenotype}
-import selection.Agent
+import generations.model.{Generation, GenerationResults, LifeResults}
+import robbieGame.RobbieGameService
+import robbieGame.model.agent.{RobbieAgent, RobbieGenotype}
+import robbieGame.model.trial.{BoardDimensions, RobbieGameState, Surroundings}
+import robbieGame.model.agent
+import selection.{AgentResults, OffspringService, SelectionService}
+
+import scala.util.Random
 
 object GenerationsService {
-  def newPopulation(size: Int): Population =
-    Population((1 to size).map(_ => RobbieAgent(RobbieGenotype.create)))
 
-  def runGeneration(population: Population): GenerationResults = ???
+  def firstGeneration(size: Int): Generation =
+    (1 to size).map(_ => RobbieAgent())
 
-  def nextGenPopulation(previousGenResults: GenerationResults): Population = ???
+  def generationResults(generation: Generation, numTrials: Int): GenerationResults =
+    generation.map { agent =>
+      import robbieGame.model.trial.TrialResults.average
+      LifeResults(
+        agent,
+        RobbieGameService
+          .trials(numTrials, agent)
+          .average
+      )
+    }
 
-  def main(args: Array[String]): Unit = {
-    println(newPopulation(10))
+
+  def nextGeneration(
+            generationResults: GenerationResults,
+            proportionEliteSelection: Float,
+            proportionMutate: Float
+          ): Generation = {
+
+    val eliteGenes: Seq[RobbieGenotype] =
+      SelectionService.elite(generationResults, proportionEliteSelection)
+        .map(_.agent.genes)
+
+    val parents: Seq[LifeResults] = SelectionService.selectByRouletteWheel(
+      generationResults.map(lifeResults => LifeResults(lifeResults.agent, lifeResults.lifeScore + 250)),
+      (generationResults.length * (1 - proportionEliteSelection)).round
+    )
+
+    val childGenes: Seq[RobbieGenotype] = (0 until parents.length).map { index =>
+      OffspringService.crossover(
+        parents(index).agent.genes,
+        parents((index + 1) % parents.length).agent.genes
+      )
+    }
+
+    val nextGenGenes = OffspringService.mutatePopulation(
+      proportionMutate,
+      population = eliteGenes ++ childGenes
+    )
+
+    nextGenGenes.map(RobbieAgent.apply)
   }
+
 }
-
-case class Population(individuals: Seq[RobbieAgent])
-
-case class LifeResults(agent: Agent, lifeScore: Int)
-
-case class GenerationResults(individualResults: Seq[LifeResults])
-
 

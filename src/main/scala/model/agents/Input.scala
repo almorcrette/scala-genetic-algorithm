@@ -1,5 +1,5 @@
 package model.agents
 
-trait Gene {
+trait Input {
   val size: Int
 }

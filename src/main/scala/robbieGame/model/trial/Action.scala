@@ -1,12 +1,11 @@
-package model.trial
+package robbieGame.model.trial
 
-import model.agents.Allele
-import model.trial.Action
+import model.agents.Output
 import model.{Decodable, Encodable}
 
 import scala.util.Random.shuffle
 
-enum Action (val asString: String) extends Allele with Encodable {
+enum Action (val asString: String) extends Output with Encodable {
   case MoveNorth extends Action("move north")
   case MoveSouth extends Action("move south")
   case MoveEast extends Action("move east")

@@ -1,13 +1,30 @@
 package selection
 
-import model.agents.{Allele, Gene, Genotype, RobbieAgent, RobbieGenotype}
-import model.trial.Action
+import model.agents.{Output, Input, Genotype}
+import robbieGame.model.agent.{RobbieAgent, RobbieGenotype}
+import robbieGame.model.trial.Action
 
 import scala.annotation.tailrec
 import scala.util.Random
 
 object OffspringService {
-  def mutate(genotype: RobbieGenotype, proportionMutated: Float): RobbieGenotype = {
+  
+  def mutatePopulation(proportionMutate: Float, population: Seq[RobbieGenotype]): Seq[RobbieGenotype] = {
+    @tailrec
+    def mutateAgentsRecursive(population: Seq[RobbieGenotype], proportionMutate: Float, acc: Int): Seq[RobbieGenotype] =
+      if acc == population.length * proportionMutate then population
+      else mutateAgentsRecursive(mutateOne(population), proportionMutate, acc + 1)
+
+    mutateAgentsRecursive(population, proportionMutate, 0)
+  }
+  
+  private def mutateOne(population: Seq[RobbieGenotype]): Seq[RobbieGenotype] = {
+    val shuffledPreMutate = Random.shuffle(population)
+    shuffledPreMutate.tail :+ mutate(shuffledPreMutate.head, 0.01)
+  }
+    
+    
+  private def mutate(genotype: RobbieGenotype, proportionMutated: Float): RobbieGenotype = {
     
     def mutateOne(genotype: RobbieGenotype): RobbieGenotype = {
       val randomMutationLocation = Random.nextInt(genotype.sequence.length)
@@ -26,18 +43,13 @@ object OffspringService {
     mutateMultiple(genotype, numberMutated, 0)
   }
   
-  def crossover(firstParent: RobbieGenotype, secondParent: RobbieGenotype): (RobbieGenotype, RobbieGenotype) = {
+  def crossover(firstParent: RobbieGenotype, secondParent: RobbieGenotype): RobbieGenotype = {
     val randomCrossoverLocation = Random.nextInt(firstParent.sequence.length + 1)
     val lengthRightSection = firstParent.sequence.length - randomCrossoverLocation
     val firstSectionFirstParentSequence = firstParent.sequence.take(randomCrossoverLocation)
-    val secondSectionFirstParentSequence = firstParent.sequence.takeRight(lengthRightSection)
-    val firstSectionSecondParentSequence = secondParent.sequence.take(randomCrossoverLocation)
     val secondSectionSecondParentSequence = secondParent.sequence.takeRight(lengthRightSection)
     
-    (
-      RobbieGenotype(firstSectionFirstParentSequence + secondSectionSecondParentSequence),
-      RobbieGenotype(firstSectionSecondParentSequence + secondSectionFirstParentSequence)
-    )
+    RobbieGenotype(firstSectionFirstParentSequence + secondSectionSecondParentSequence)
   }
 
 }

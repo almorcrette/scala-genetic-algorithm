@@ -1,8 +1,6 @@
-package model.trial
+package robbieGame.model.trial
 
-import model.trial.{BoardDimensions, BoardPosition}
 import model.{Encodable, EnumerableCode}
-import model.trial.Feature
 
 enum Feature extends Encodable {
   case Food, Boundary, Nothing

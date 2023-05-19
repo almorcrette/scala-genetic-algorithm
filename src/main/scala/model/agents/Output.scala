@@ -1,3 +1,3 @@
 package model.agents
 
-trait Allele
+trait Output

@@ -1,7 +1,6 @@
-package model.trial
+package robbieGame.model.trial
 
-import model.trial.BoardPosition
-import model.trial.BoardPosition.{RobbiePosition, Tile}
+import robbieGame.model.trial.BoardPosition.{RobbiePosition, Tile}
 
 class Food(positions: IndexedSeq[Tile]) {
   

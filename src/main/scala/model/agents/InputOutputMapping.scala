@@ -1,5 +1,5 @@
 package model.agents
 
-trait SenseMaker {
+trait InputOutputMapping {
   lazy val lookUp: Seq[String]
 }

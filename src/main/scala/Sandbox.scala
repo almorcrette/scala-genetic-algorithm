@@ -1,41 +1,30 @@
 
 import CommandLineInterface.Output
-import model.trial.Feature.*
-import model.agents.{RobbieAgent, RobbieGenotype, SenseMaker}
-import model.trial.{BoardDimensions, RobbieGameState, Surroundings}
+import generations.GenerationsService
+import generations.model.Generation
+import robbieGame.model.trial.Feature.*
+import model.agents.InputOutputMapping
+import robbieGame.model.agent.{RobbieAgent, RobbieGenotype}
+import robbieGame.model.trial.{BoardDimensions, RobbieGameState, Surroundings}
 
 object Sandbox {
   def main(args: Array[String]): Unit = {
-    given robbieSenseMaker: SenseMaker with
-      lazy val lookUp: Seq[String] = Surroundings.allCodes
 
-    val cohort = (1 to 200).map(agentNo =>
-      RobbieAgent(RobbieGenotype.create)
-    )
+    val firstPopulation = GenerationsService.firstGeneration(100)
 
-    val averageScores = cohort.map { agent =>
-      val trials = (1 to 100).map { _ =>
-        val newGame = new RobbieGameState.Start(BoardDimensions(10, 10), 0.4)
-
-        val endState =
-          (0 to 40).foldLeft(newGame: RobbieGameState)((gameState: RobbieGameState, gameTurn: Int) => {
-            //          Output.gameStateAtTurn(gameTurn, gameState)
-            val action = agent.decideAction(gameState.robbieSurroundings)
-            //          Output.action(action)
-            gameState.playTurn(action)
-          })
-        endState.points.value
-      }
-      trials.sum / 100
+    def runOneIteration(population: Generation): Generation = {
+      import GenerationsService._
+      val res = generationResults(population, 100)
+      println(res.map(_.lifeScore).sorted.take(20).sum)
+      nextGeneration(res, 0.1, 0.1)
     }
 
-    averageScores.foreach(score => println(s"average score : $score"))
+    def runMultipleIterations(population: Generation, numIterations: Int): Generation =
+      def runMultipleIterationsAcc(population: Generation, numIterations: Int, acc: Int): Generation =
+        if (acc == numIterations) then population
+        else runMultipleIterationsAcc(runOneIteration(population), numIterations, acc + 1)
+      runMultipleIterationsAcc(population, numIterations, 0)
 
-
-
-
-
-
-
+    runMultipleIterations(firstPopulation, 100)
   }
 }
